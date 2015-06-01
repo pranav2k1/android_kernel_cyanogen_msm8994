@@ -1837,6 +1837,18 @@ static int init_cluster_control(void)
 			ret = -ENOMEM;
 			goto error;
 		}
+		if (!alloc_cpumask_var(&managed_clusters[i]->cpus,
+		     GFP_KERNEL)) {
+			pr_err("msm_perf:Cluster %u cpu alloc failed\n",
+			       i);
+			return -ENOMEM;
+		}
+		if (!alloc_cpumask_var(&managed_clusters[i]->offlined_cpus,
+		     GFP_KERNEL)) {
+			pr_err("msm_perf:Cluster %u off_cpus alloc failed\n",
+			       i);
+			return -ENOMEM;
+		}
 		managed_clusters[i]->max_cpu_request = -1;
 		managed_clusters[i]->single_enter_load = DEF_SINGLE_ENT;
 		managed_clusters[i]->single_exit_load = DEF_SINGLE_EX;
